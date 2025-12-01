@@ -62,7 +62,7 @@
                                     <i class="fa-regular fa-user"></i> {{ user.username }}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">My Bookings</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'bookings:reviewer_dashboard' %}">My Bookings</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form action="{% url 'accounts:logout' %}" method="post">
