@@ -10,4 +10,3 @@ def create_booking(request : HttpRequest):
 
 def reviewer_dashboard(request : HttpRequest):
     pass
-
