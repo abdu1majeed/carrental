@@ -11,6 +11,22 @@
     background-position: center center;
     background-size: cover;
 } 
+.featured-cars-section .card {
+    transition: transform 0.2s;
+}
+.featured-cars-section .card:hover {
+    transform: translateY(-5px);
+}
+.card-car-img-container {
+    height: 200px; 
+    overflow: hidden; 
+    background-color: #f8f9fa;
+}
+.card-car-img {
+    object-fit: cover; 
+    height: 100%; 
+    width: 100%;
+}
 </style>
 {% endblock %}
 
@@ -20,8 +36,8 @@
         <div class="container text-center text-md-start hero-content">
             <div class="d-flex justify-content-center justify-content-md-start mb-4">
                 <a href="#" class="text-white mx-2"><i class="fas fa-heart"></i></a>
-                <a href="#" class="text-white mx-2"><i class="fas fa-car"></i></a>
-                <a href="#" class="text-white mx-2"><i class="fas fa-comment"></i></a>
+                <a href="{% url 'vehicles:car_list' %}" class="text-white mx-2"><i class="fas fa-car"></i></a>
+                <a href="{% url 'main:contact' %}" class="text-white mx-2"><i class="fas fa-comment"></i></a>
             </div>
             <h1 class="display-1 fw-bold mb-3">Car Rental</h1>
             <div class="d-flex justify-content-center justify-content-md-start small text-uppercase">
@@ -29,114 +45,123 @@
                 <span class="mx-2">Audi</span>
                 <span class="mx-2">BMW</span>
             </div>
+            {% comment %}             <div class="d-flex justify-content-center justify-content-md-start mb-4">
+                <img src="{% static 'images/jeep_logo.png' %}" alt="Jeep" class="img-fluid mx-2 brand-logo-small jeep-logo">
+                <img src="{% static 'images/audi_logo.png' %}" alt="Audi" class="img-fluid mx-2 brand-logo-small audi-logo">
+                <img src="{% static 'images/bmw_logo.png' %}" alt="BMW" class="img-fluid mx-2 brand-logo-small">
+            </div> {% endcomment %}
         </div>
     </section>
 
-    <section id="services" class="services-premium py-5">
+    <section id="services" class="services-premium py-5 text-white">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 mb-4 mb-lg-0 text-white">
-                    <p class="text-primary fw-bold mb-1">How it works</p>
-                    <h2 class="fw-bold mb-3">Our Premier services for your car rental needs</h2>
-                    <p class="text-muted small">We provide the best cars for rent with secure payment options and 24/7 support.</p>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="p-4 rounded-3 card-service h-100">
-                                <i class="fas fa-car fa-2x text-primary mb-3"></i>
-                                <h5 class="fw-bold text-white">Well-maintained Car</h5>
-                                <p class="text-muted small">Choose your perfect car from our vast collection.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="p-4 rounded-3 card-service h-100">
-                                <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
-                                <h5 class="fw-bold text-white">Secure Payments</h5>
-                                <p class="text-muted small">We accept all major credit cards and ensure your data is secure.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="p-4 rounded-3 card-service h-100">
-                                <i class="fas fa-headset fa-2x text-primary mb-3"></i>
-                                <h5 class="fw-bold text-white">24/7 Support</h5>
-                                <p class="text-muted small">Our dedicated support team is available around the clock to assist you.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="steps-section py-5 bg-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <p class="text-primary fw-bold mb-1">How it works</p>
-                    <h2 class="fw-bold mb-4">Step by step to rent a car on our platform</h2>
-                    <ul class="list-unstyled steps-list">
-                        <li class="d-flex mb-3"><span class="step-num me-3">1</span> <div><h6 class="fw-bold">Discover Your Perfect Car</h6><p class="small text-muted mb-0">Browse our wide range of vehicles.</p></div></li>
-                        <li class="d-flex mb-3"><span class="step-num me-3">2</span> <div><h6 class="fw-bold">Process the Payment</h6><p class="small text-muted mb-0">Confirm your booking and make a secure payment.</p></div></li>
-                        <li class="d-flex mb-3"><span class="step-num me-3">3</span> <div><h6 class="fw-bold">Your Booking is Confirmed</h6><p class="small text-muted mb-0">Receive your confirmation and pick up the car.</p></div></li>
-                    </ul>
-                </div>
-                <div class="col-lg-6 d-flex align-items-center"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="collection" class="cars-collection-section py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <p class="text-primary fw-bold mb-1">Collection</p>
-                <h2 class="fw-bold">Explore Our Collection Cars</h2>
-            </div>
-            
-            <div class="text-center mb-5">
-                <button class="btn btn-dark active mx-2">All</button>
-                <button class="btn btn-outline-secondary mx-2">Buy</button>
-                <button class="btn btn-outline-secondary mx-2">Lease</button>
-                <button class="btn btn-outline-secondary mx-2">Sport</button>
-                <button class="btn btn-outline-secondary mx-2">Luxury</button>
-            </div>
-
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            <h2 class="text-center fw-bold mb-5">Our Premier Services</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
                 <div class="col">
-                    <div class="card h-100 shadow-sm border-0">
-                        <img src="{% static 'images/car_sample_1.jpg' %}" class="card-img-top" alt="Vehicle Name">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Supra Turbo Z</h5>
-                            <p class="text-muted small mb-1">$79 / Day</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-warning small"><i class="fas fa-star"></i> 4.9 (185)</div>
-                                <span class="badge bg-secondary">Petrol</span>
-                            </div>
+                    <div class="card h-100 shadow-sm border-0 card-service">
+                        <div class="card-body text-center">
+                            <i class="fas fa-key fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title fw-bold text-white">Instant Booking</h5>
+                            <p class="card-text small text-secondary text-white">Book your car in less than 60 seconds with our streamlined process.</p>
                         </div>
                     </div>
                 </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 card-service">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title fw-bold text-white">Full Insurance</h5>
+                            <p class="card-text small text-secondary text-white">Enjoy peace of mind with comprehensive insurance covering your entire trip.</p>
+                        </div>
+                    </div>
                 </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 card-service">
+                        <div class="card-body text-center">
+                            <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title fw-bold text-white">Flexible Pickup</h5>
+                            <p class="card-text small text-secondary text-white">Choose your preferred pickup and drop-off locations, even at the airport.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="premium-vehicles" class="py-5 featured-cars-section">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">Our Featured Vehicles</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                
+                {% for car in cars %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 bg-white text-dark">
+                        <div class="card-car-img-container d-flex align-items-center justify-content-center">
+                            {% if car.image %}
+                                <img src="{{ car.image.url }}" class="card-img-top card-car-img" alt="{{ car.brand }} {{ car.model_name }}">
+                            {% else %}
+                                <span class="text-muted">No Image Available</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">{{ car.brand }} {{ car.model_name }}</h5>
+                            <p class="text-muted small mb-1">{{ car.daily_price }} SAR / Day</p>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 pt-0">
+                            <a href="{% url 'vehicles:car_detail' car.id %}" class="btn btn-dark w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-5 d-flex justify-content-center align-items-center" style="min-height: 250px;">
+                    <h3 class="text-muted">No featured cars available for display yet.</h3>
+                </div>
+                {% endfor %}
+            </div>
             
             <div class="text-center mt-5">
-                <a href="#" class="btn btn-dark btn-lg px-5 rounded-pill">Explore More</a>
+                <a href="{% url 'vehicles:car_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill">Explore More</a>
             </div>
         </div>
     </section>
 
-    <section class="app-section py-5 bg-dark text-white">
+
+    <section id="premium-vehicles" class="py-5 featured-cars-section">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <p class="text-primary fw-bold mb-1">Get On The App</p>
-                    <h2 class="fw-bold mb-3">Enable a Better Vehicle Rental Experience, Carent Handi Download Now!</h2>
-                    <div class="d-flex">
-                        {% comment %} {% static 'images/app_store.png' %} {% endcomment %}
-                        <a href="#"><img src="" alt="App Store" class="me-3 app-badge"></a>
-                        {% comment %} {% static 'images/google_play.png' %} {% endcomment %}
-                        <a href="#"><img src="" alt="Google Play" class="app-badge"></a>
+            <h2 class="text-center fw-bold mb-5">Our Most Exclusive Vehicles</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                    
+                {% for expensive_car in expensive_cars %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0 bg-white text-dark">                        
+                            <div class="card-car-img-container d-flex align-items-center justify-content-center">
+                                {% if expensive_car.image %}
+                                    <img src="{{ expensive_car.image.url }}" class="card-img-top card-car-img" alt="{{ expensive_car.brand }} {{ expensive_car.model_name }}">
+                                {% else %}
+                                    <span class="text-muted">No Image Available</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">{{ expensive_car.brand }} {{ expensive_car.model_name }}</h5>
+                                <p class="text-muted small mb-1">{{ expensive_car.daily_price }} SAR / Day</p>
+                            </div>
+
+                            <div class="card-footer bg-white border-0 pt-0">
+                                <a href="{% url 'vehicles:car_detail' expensive_car.id %}" class="btn btn-dark w-100">View Details</a>
+                            </div>
+                        </div>
                     </div>
+                {% empty %}
+                <div class="col-12 text-center py-5 d-flex justify-content-center align-items-center" style="min-height: 250px;">
+                    <h3 class="text-muted">No featured cars available for display yet.</h3>
                 </div>
-                <div class="col-lg-6 text-center"></div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-5">
+                <a href="{% url 'vehicles:car_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill">Explore More</a>
             </div>
         </div>
     </section>

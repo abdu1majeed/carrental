@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+
+<section class="py-5 text-center bg-light" style="padding-top: 100px !important;">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Our Story</h1>
+        <p class="lead text-secondary">
+            Driving the future of vehicle rental with trust and technology.
+        </p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h3 class="fw-bold text-primary">Our Vision</h3>
+                <p class="text-secondary">
+                    To be the leading and most trusted vehicle rental platform globally, making mobility seamless and accessible to everyone, everywhere. We envision a world where renting a car is as simple as ordering a ride.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/car.jpg' %}" alt="Vision" class="img-fluid rounded shadow-sm">
+            </div>
+        </div>
+        
+        <div class="row align-items-center flex-row-reverse">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h3 class="fw-bold text-primary">Our Values</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Trust: Building reliable relationships with our customers.</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Innovation: Constantly improving our technology and services.</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Customer Focus: Putting our users' needs at the core of everything we do.</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Sustainability: Promoting environmentally conscious rental options.</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                 <img src="{% static 'images/car_sample_2.jpg' %}" alt="Values" class="img-fluid rounded shadow-sm">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
