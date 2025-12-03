@@ -23,9 +23,8 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom" id="main-navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top initial-nav {% if request.path == '/'%}navbar-home{% endif %}" id="mainNavbar">
             <div class="container">
                 <a class="navbar-brand text-white" href="{% url 'main:home' %}">
                     Carent<span style="color: #0d6efd;">.</span>
@@ -37,11 +36,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:profile' %}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{% url 'main:home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'vehicles:car_list' %}">Cars</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'main:about_us' %}">About Us</a></li>
                         
-                        {# رابط Add Car ورابط Dashboard للـ Admin فقط #}
                         {% if user.is_authenticated and user.is_staff %}
                         <li class="nav-item">
                             {% comment %} {% url 'cars:add_car' %} {% endcomment %}
@@ -156,6 +155,31 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbar = document.getElementById('mainNavbar');
+            const scrollThreshold = 100;
+
+            const isHomePage = navbar.classList.contains('navbar-home'); 
+
+            function toggleNavbarBackground() {
+                if (isHomePage) {
+                    if (window.scrollY > scrollThreshold) {
+                        navbar.classList.add('scrolled-nav');
+                    } else {
+                        navbar.classList.remove('scrolled-nav');
+                    }
+                } else {
+                    navbar.classList.add('scrolled-nav');
+                }
+            }
+
+            window.addEventListener('scroll', toggleNavbarBackground);
+            toggleNavbarBackground(); 
+        });
+    </script>
+    
     {% block extra_js %}{% endblock %}
 
 </body>
