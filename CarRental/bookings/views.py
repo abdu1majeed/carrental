@@ -1,41 +1,43 @@
+# bookings/views.py (المحتوى الكامل والمعدل)
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from django.db.models import Sum  # ✨ إضافة مهمة: لحساب مجموع الأرباح
+from django.db.models import Sum
+from django.urls import reverse # 💡 هذا الاستيراد مهم لاستخدام reverse()
 from .models import Booking
 from .forms import BookingForm
 from vehicles.models import Car 
 
-# 1. صفحة إنشاء الحجز
-@login_required(login_url='accounts:login') # يجبر المستخدم على الدخول
+@login_required(login_url='accounts:login')
 def create_booking(request, car_id):
-    car = get_object_or_404(Car, pk=car_id) # استخدمنا pk لأنه أضمن
-    
+    car = get_object_or_404(Car, pk=car_id)
+
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.user = request.user
             booking.car = car
-            # السعر سيتم حسابه تلقائياً داخل الموديل عند الحفظ
-            booking.save() 
-            messages.success(request, "تم حجز السيارة بنجاح! بانتظار الموافقة.")
-            return redirect('bookings:booking_success')
+            booking.save()
+
+            # ⬇ يروح إلى صفحة الدفع
+            return redirect(reverse('payments:initiate_payment', args=[booking.id]))
+
     else:
         form = BookingForm()
 
-    context = {
+    return render(request, 'bookings/create_booking.html', {
         'form': form,
         'car': car
-    }
-    return render(request, 'bookings/create_booking.html', context)
+    })
 
-# 2. صفحة نجاح الحجز
+# 2. صفحة نجاح الحجز (ستبقى للاستخدام إذا قررت عدم إلغائها)
 @login_required
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
 
-# 3. لوحة تحكم المراجع (للموظفين فقط)
+# 3. لوحة تحكم المراجع (للموظفين فقط) - (لم تتغير)
 @login_required
 @user_passes_test(lambda u: u.is_staff or u.is_superuser) # يسمح للمشرفين والأدمن
 def reviewer_dashboard(request):
@@ -59,7 +61,6 @@ def reviewer_dashboard(request):
         return redirect('bookings:reviewer_dashboard')
 
     # --- ✨ حساب الإحصائيات للداشبورد ✨ ---
-    # نحسب مجموع السعر للحجوزات المؤكدة فقط، وإذا لم يوجد نضع 0
     total_revenue = bookings.filter(status='CONFIRMED').aggregate(Sum('total_price'))['total_price__sum'] or 0
 
     stats = {
@@ -71,7 +72,7 @@ def reviewer_dashboard(request):
 
     context = {
         'bookings': bookings,
-        'stats': stats # نمرر الإحصائيات للقالب
+        'stats': stats 
     }
 
     return render(request, 'bookings/reviewer_dashboard.html', context)
