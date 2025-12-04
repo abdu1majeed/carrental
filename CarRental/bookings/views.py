@@ -9,33 +9,28 @@ from .models import Booking
 from .forms import BookingForm
 from vehicles.models import Car 
 
-# 1. صفحة إنشاء الحجز (المُعدَّلة للتوجيه إلى الدفع)
-@login_required
+@login_required(login_url='accounts:login')
 def create_booking(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    
+    car = get_object_or_404(Car, pk=car_id)
+
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.user = request.user
             booking.car = car
-            
-            # سيتم حفظ السعر الإجمالي هنا بناءً على دالة save() في مودل Booking
-            booking.save() 
-            
-            # ✨ نقطة الدمج والتوجيه إلى تطبيق payments ✨
-            # نوجه العميل إلى مسار 'initiate_payment' في مساحة الاسم 'payments'
+            booking.save()
+
+            # ⬇ يروح إلى صفحة الدفع
             return redirect(reverse('payments:initiate_payment', args=[booking.id]))
-            
+
     else:
         form = BookingForm()
 
-    context = {
+    return render(request, 'bookings/create_booking.html', {
         'form': form,
         'car': car
-    }
-    return render(request, 'bookings/create_booking.html', context)
+    })
 
 # 2. صفحة نجاح الحجز (ستبقى للاستخدام إذا قررت عدم إلغائها)
 @login_required
@@ -44,7 +39,7 @@ def booking_success(request):
 
 # 3. لوحة تحكم المراجع (للموظفين فقط) - (لم تتغير)
 @login_required
-@user_passes_test(lambda u: u.is_staff) 
+@user_passes_test(lambda u: u.is_staff or u.is_superuser) # يسمح للمشرفين والأدمن
 def reviewer_dashboard(request):
     # عرض الحجوزات، الأحدث أولاً
     bookings = Booking.objects.all().order_by('-created_at')
@@ -57,10 +52,10 @@ def reviewer_dashboard(request):
         
         if action == 'approve':
             booking.status = 'CONFIRMED'
-            messages.success(request, f'Booking #{booking.id} Approved')
+            messages.success(request, f'Booking #{booking.id} Approved ✅')
         elif action == 'reject':
             booking.status = 'CANCELLED'
-            messages.warning(request, f'Booking #{booking.id} Rejected')
+            messages.warning(request, f'Booking #{booking.id} Rejected ❌')
         
         booking.save()
         return redirect('bookings:reviewer_dashboard')
