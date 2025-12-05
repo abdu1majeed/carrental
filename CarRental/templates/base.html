@@ -36,8 +36,7 @@
 <body>
 
     <header>
-        <!-- اعتمدنا id="mainNavbar" وكلاسات الفريق لدعم الشفافية -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top initial-nav {% if request.path == '/'%}navbar-home{% endif %}" id="mainNavbar">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top initial-nav {% if request.path == 'home/'%}navbar-home{% endif %}" id="mainNavbar">
             <div class="container">
                 <a class="navbar-brand text-white" href="{% url 'main:home' %}">
                     Carent<span style="color: #0d6efd;">.</span>
@@ -53,7 +52,6 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'vehicles:car_list' %}">Cars</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'main:about_us' %}">About Us</a></li>
                         
-                        {# ✅ اعتمدنا القائمة المنسدلة الخاصة بك (الأفضل) #}
                         {% if user.is_authenticated and user.is_superuser %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-warning fw-bold" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -73,6 +71,9 @@
                                     </a></li>
                                     <li><a class="dropdown-item" href="{% url 'vehicles:add_car' %}">
                                         <i class="fa-solid fa-plus me-2"></i> Add New Car
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="{% url 'vehicles:add_car' %}">
+                                        <i class="fa-solid fa-plus me-2"></i> Add New Company
                                     </a></li>
                                 </ul>
                             </li>
